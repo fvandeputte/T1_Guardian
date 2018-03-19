@@ -1,0 +1,145 @@
+<p id="notice"><%= notice %></p>
+
+
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li p {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    margin: 0;
+    text-decoration: none;
+
+}
+
+li a:hover {
+    background-color: #111;
+}
+</style>
+<body class="w3-light-grey">
+<!-- Si esta registrado -->
+<% if user_signed_in? %>
+<ul>
+  <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %> </li>
+  <li> <p> Hi, <%= current_user.email.split('@')[0] %> </p> </li>
+  <% if current_user.admin? %>
+    <li><%= link_to 'Admin your site', '/dashboard' %> </li>
+  <% end %>
+</ul>
+<% end %>
+<!-- Si no esta registrado -->
+<% if !user_signed_in? %>
+<ul>
+  <li><%= link_to 'Register', new_user_registration_path%> </li>
+  <li><%= link_to 'Log in', new_user_session_path %> </li>
+</ul>
+<% end %>
+
+
+
+<!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+<div class="w3-content" style="max-width:1400px">
+
+<!-- Header -->
+<header class="w3-container w3-center w3-padding-32"> 
+  <h1><b>The News</b></h1>
+  <p>Welcome to the site of <span class="w3-tag">fvandeputtem</span></p>
+</header>
+
+<!-- Grid -->
+<div class="w3-row">
+
+<!-- Blog entries -->
+<div class="w3-col l8 s12">
+  <!-- Blog entry -->
+  <hr>
+  <% @articles.each do |article| %>
+  <!-- Blog entry -->
+  <div class="w3-card-4 w3-margin w3-white">
+  <img src="https://tecnicorichard.files.wordpress.com/2014/07/portadas-twitter-1500x500-nuevas-2.jpg" alt="Amazing" style="width: 100%;">
+    <div class="w3-container">
+      <h3><%= article.title %></h3>
+      <h5><%= article.description %></h5>
+      <span class="w3-opacity"><%= article.created_at %></span>
+    </div>
+
+    <div class="w3-container">
+      <p><%=h truncate(article.body, :length => 500) %></p>
+      <div class="w3-row">
+        <div class="w3-col m8 s12">
+          <p><%= link_to 'Read more', article %></p>
+        </div>
+        <div class="w3-col m4 w3-hide-small">
+          <p><span class="w3-padding-large w3-right"><b>Comments</b> <span class="w3-badge"><%= article.reviews.count %></span></span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <% end %>
+<!-- END BLOG ENTRIES -->
+</div>
+
+<!-- Introduction menu -->
+<div class="w3-col l4">
+  <!-- About Card -->
+  <div class="w3-card w3-margin w3-margin-top">
+    <div class="w3-container w3-white">
+      <h4><b>About the site</b></h4>
+      <p>Site developt to the course of Taller de Integracion, using Ruby on Rails framework</p>
+    </div>
+  </div><hr>
+  <div class="w3-card w3-margin w3-margin-top">
+    <div class="w3-container w3-white">
+      <h4><b>About the creator</b></h4>
+      <p>Felipe Vandeputte is studing Industrial Engineering. Lover of soccer and sports in general, spends his free time developing sites</p>
+    </div>
+  </div><hr>
+
+<!-- END Introduction Menu -->
+</div>
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END w3-content -->
+</div>
+
+
+ 
+
+</body>
+</html>
+
+
+

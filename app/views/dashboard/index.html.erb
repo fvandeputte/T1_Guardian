@@ -1,0 +1,117 @@
+<p id="notice"><%= notice %></p>
+
+
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li p {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    margin: 0;
+    text-decoration: none;
+
+}
+
+li a:hover {
+    background-color: #111;
+}
+</style>
+<body class="w3-light-grey">
+<!-- Si esta registrado -->
+<% if user_signed_in? %>
+<ul>
+  <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %> </li>
+  <li> <p> Hi, <%= current_user.email.split('@')[0] %> </p> </li>
+</ul>
+<% end %>
+<!-- Si no esta registrado -->
+<% if !user_signed_in? %>
+  <ul>
+    <li><%= link_to 'Register', new_user_registration_path%> </li>
+    <li><%= link_to 'Log in', new_user_session_path %> </li>
+  </ul>
+<% end %>
+
+
+<% if current_user.try(:admin?) %>
+<!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+
+
+
+  <div class="row">
+    
+  
+  <div class="col-md-12">
+  <h4>Create, edit or delete news</h4>
+  <div class="table-responsive">
+
+                
+<table id="mytable" class="table table-bordred table-striped">
+    <thead>
+    <th>Title</th>
+    <th>Date</th>
+    <th>Edit</th>            
+    <th>Delete</th>
+    </thead>
+    <tbody>
+    <% @articles.each do |article| %>
+    <tr>
+ 
+    <td> <%= article.title %></td>
+    <td> <%= article.created_at %></td>
+    <td> <%= link_to 'Edit', edit_article_path(article) %></td>
+    <td> <%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    
+    <% end %>
+    
+    </tbody>
+        
+</table>
+
+      </div>
+    <!-- /.modal-content --> 
+  </div>
+  </div>
+      
+
+
+
+<%= link_to 'New Article', new_article_path %>
+
+<% end %>

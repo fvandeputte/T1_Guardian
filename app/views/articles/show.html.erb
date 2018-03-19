@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li p {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    margin: 0;
+    text-decoration: none;
+
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+</style>
+<body class="w3-light-grey">
+
+<!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+<% if user_signed_in? %>
+<ul>
+  <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %> </li>
+  <li> <p> Hi, <%= current_user.email.split('@')[0] %> </p> </li>
+  <% if current_user.admin? %>
+    <li><%= link_to 'Admin your site', '/dashboard' %> </li>
+    <li><%= link_to 'Home', '/articles' %> </li>
+  <% end %>
+</ul>
+<% end %>
+<!-- Si no esta registrado -->
+<% if !user_signed_in? %>
+<ul>
+  <li><%= link_to 'Register', new_user_registration_path%> </li>
+  <li><%= link_to 'Log in', new_user_session_path %> </li>
+  <li><%= link_to 'Home', '/articles' %> </li>
+
+</ul>
+<% end %>
+<div class="w3-content" style="max-width:1400px">
+
+<!-- Header -->
+<!-- Grid -->
+<div class="w3-row">
+
+<!-- Blog entries -->
+<div class="w3-col l8 s12">
+  <!-- Blog entry -->
+  <div class="w3-card-4 w3-margin w3-white">
+    <img src="https://4kwallpapers.co/wp-content/uploads/2016/02/newspaper-stand-4k-wallpapers.jpg" alt="Nature" style="width:100%">
+    <div class="w3-container">
+      <h3><b><%= @article.title %></b></h3>
+      <h5> <%= @article.description %></h5>
+      <span class="w3-opacity"><%= @article.created_at %></span>
+    </div>
+
+    <div class="w3-container">
+      <p><%= @article.body %>.</p>
+    </div>
+  </div>
+  <hr>
+
+  <!-- Blog entry -->
+
+<!-- END BLOG ENTRIES -->
+</div>
+
+<!-- Introduction menu -->
+<div class="w3-col l4">
+  <!-- About Card -->  
+  <!-- Posts -->
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Comments</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+      <% @reviews.each do |d| %>    
+      <li class="w3-padding-16">
+        <img src="http://images.clipartpanda.com/comment-clipart-comment_bubble_gradient_blue_left.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large"><%= d.username %></span><br>
+        <span><%= d.content %></span>
+      </li>
+      <% end %>
+      <li class="w3-padding-16">
+        Leave your comment!
+        <%= form_for(@nuevo_review)  do |form| %>
+
+
+        <div class="field">
+          <%= form.label :username %>
+          <%= form.text_field :username, id: :review_username %>
+        </div>
+
+        <div class="field">
+          <%= form.label :content %>
+          <%= form.text_field :content, id: :review_content %>
+        </div>
+
+
+          <%= form.hidden_field :article_id, :value => @article.id %>
+
+        <div class="actions">
+          <%= form.submit %>
+        </div>
+        <% end %>
+        
+      </li>
+
+
+
+    </ul>
+  </div>
+  <hr> 
+ 
+  <!-- Labels / tags -->
+
+  
+<!-- END Introduction Menu -->
+</div>
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END w3-content -->
+</div>
+
+<!-- Footer -->
+
+
+</body>
+</html>
+
+
+
+
